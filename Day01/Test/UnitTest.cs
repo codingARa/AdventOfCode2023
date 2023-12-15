@@ -10,7 +10,7 @@ namespace Test
         {
             List<string> inputList = new() {};
             var answer = Code.Program.SolutionPart1(inputList);
-            Assert.That(answer, Is.EqualTo(1));
+            Assert.That(answer, Is.EqualTo(0));
         }
     }
 }
