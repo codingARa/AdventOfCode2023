@@ -1,9 +1,9 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DayXXCode
+namespace Code
 {
     public class Program
     {
@@ -18,7 +18,8 @@ namespace DayXXCode
 
         public static int SolutionPart1(List<string> inputIntegers)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return 0;
         }
     }
 }
