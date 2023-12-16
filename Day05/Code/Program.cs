@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices;
 
 namespace Code
 {
@@ -18,11 +17,11 @@ namespace Code
             Console.WriteLine($"Solution part 1: {answer1}");
         }
 
-        public static BigInteger SolutionPart1(List<string> input)
+        public static (List<BigInteger>, Dictionary<string, Dictionary<string,List<BigInteger>>>) ParseInput(List<string> input)
         {
             var seeds = new List<BigInteger>();
-            var mapIsOpen = false;
             var Maps = new Dictionary<string, Dictionary<string,List<BigInteger>>>();
+            var mapIsOpen = false;
             var currentMapKey = "";
 
             foreach (var line in input)
@@ -67,6 +66,13 @@ namespace Code
                     continue;
                 }
             }
+
+            return (seeds, Maps);
+        }
+
+        public static BigInteger SolutionPart1(List<string> input)
+        {
+            (List<BigInteger> seeds, Dictionary<string, Dictionary<string, List<BigInteger>>> Maps) = ParseInput(input);
 
             var locations = new List<BigInteger>();
             List<string> mapNames = new List<string>() {
