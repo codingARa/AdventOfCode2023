@@ -15,6 +15,9 @@ namespace Code
                 .ToList();
             BigInteger answer1 = SolutionPart1(input);
             Console.WriteLine($"Solution part 1: {answer1}");
+
+            BigInteger answer2 = SolutionPart2(input);
+            Console.WriteLine($"Solution part 2: {answer2}");
         }
 
         public static (List<BigInteger>, Dictionary<string, Dictionary<string,List<BigInteger>>>) ParseInput(List<string> input)
@@ -114,8 +117,67 @@ namespace Code
         }
         public static BigInteger SolutionPart2(List<string> input)
         {
-            BigInteger result = 0;
-            return result;
+            (List<BigInteger> seeds, Dictionary<string, Dictionary<string, List<BigInteger>>> Maps) = ParseInput(input);
+
+            var locations = new List<BigInteger>();
+            List<string> mapNames = new List<string>() {
+                "seed-to-soil map:",
+                "soil-to-fertilizer map:",
+                "fertilizer-to-water map:",
+                "water-to-light map:",
+                "light-to-temperature map:",
+                "temperature-to-humidity map:",
+                "humidity-to-location map:"
+            };
+
+            var seedRanges = new List<BigInteger>();
+
+            var seedCounts = seeds.Count();
+            for (int i = 0; i < seedCounts/2; i += 2)
+            {
+                Console.WriteLine($"Seed {i} of Ranges {seedCounts/2}");
+                var kernel = seeds[i];
+                var diff = seeds[i+1];
+                for (int s = 0; s < diff; s++)
+                {
+                    kernel++;
+                    if (!seedRanges.Contains(kernel))
+                    {
+                        seedRanges.Add(kernel);
+                    }
+                }
+            }
+
+            int se = 0;
+            int sc = seedRanges.Count();
+            foreach (var seed in seedRanges)
+            {
+                se++;
+                Console.WriteLine($"Seed {se} of Ranges {sc}");
+                BigInteger kernel = seed;
+                foreach (var mapName in mapNames)
+                {
+                    var currentMap = Maps[mapName];
+                    var entries = currentMap["Destination"].Count();
+                    var conversionFound = false;
+
+                    for (int i = 0; i < entries; i++)
+                    {
+                        if (conversionFound)
+                        {
+                            break;
+                        }
+                        if (kernel >= currentMap["SourceMin"][i] && kernel <= currentMap["SourceMax"][i])
+                        {
+                            conversionFound = true;
+                            kernel = kernel + currentMap["Destination"][i] - currentMap["SourceMin"][i];
+                        }
+                    }
+                }
+                locations.Add(kernel);
+            }
+
+            return locations.Min();
         }
     }
 }
